@@ -22,6 +22,8 @@ type FileInfo struct {
 	LocalVersion int64
 	CachedSize   int64       // noencode (cache only)
 	Blocks       []BlockInfo // max:1000000
+	UID	         int
+	GID          int
 }
 
 func (f FileInfo) String() string {

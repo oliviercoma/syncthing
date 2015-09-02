@@ -344,6 +344,8 @@ func (w *Walker) walkAndHashFiles(fchan, dchan chan protocol.FileInfo) filepath.
 				Flags:    protocol.FlagSymlink | flags | protocol.FlagNoPermBits | 0666,
 				Modified: 0,
 				Blocks:   blocks,
+				UID:      osutil.Uid(info),
+				GID:      osutil.Gid(info),
 			}
 
 			if debug {
@@ -382,6 +384,8 @@ func (w *Walker) walkAndHashFiles(fchan, dchan chan protocol.FileInfo) filepath.
 				Version:  cf.Version.Update(w.ShortID),
 				Flags:    flags,
 				Modified: mtime.Unix(),
+				UID:      osutil.Uid(info),
+				GID:      osutil.Gid(info),
 			}
 			if debug {
 				l.Debugln("dir:", p, f)
@@ -429,6 +433,8 @@ func (w *Walker) walkAndHashFiles(fchan, dchan chan protocol.FileInfo) filepath.
 				Flags:      flags,
 				Modified:   mtime.Unix(),
 				CachedSize: info.Size(),
+				UID:        osutil.Uid(info),
+				GID:        osutil.Gid(info),
 			}
 			if debug {
 				l.Debugln("to hash:", p, f)

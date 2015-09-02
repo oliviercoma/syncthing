@@ -230,6 +230,8 @@ func (o FileInfo) EncodeXDRInto(xw *xdr.Writer) (int, error) {
 			return xw.Tot(), err
 		}
 	}
+	xw.WriteUint32(uint32(o.UID))
+	xw.WriteUint32(uint32(o.GID))
 	return xw.Tot(), xw.Error()
 }
 
@@ -261,6 +263,8 @@ func (o *FileInfo) DecodeXDRFrom(xr *xdr.Reader) error {
 	for i := range o.Blocks {
 		(&o.Blocks[i]).DecodeXDRFrom(xr)
 	}
+	o.UID = int(xr.ReadUint32())
+	o.GID = int(xr.ReadUint32())
 	return xr.Error()
 }
 

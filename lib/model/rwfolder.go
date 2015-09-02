@@ -680,6 +680,12 @@ func (p *rwFolder) handleDir(file protocol.FileInfo) {
 			if err != nil {
 				return err
 			}
+			
+			// Chown
+			err = os.Chown(path, file.UID, file.GID)
+			if err != nil {
+				return err
+			}
 
 			// Mask for the bits we want to preserve and add them in to the
 			// directories permissions.
@@ -1247,6 +1253,10 @@ func (p *rwFolder) performFinish(state *sharedPullerState) error {
 		if err := os.Chmod(state.tempName, os.FileMode(state.file.Flags&0777)); err != nil {
 			return err
 		}
+	}
+	
+	if err := os.Chown(state.tempName, state.file.UID, state.file.GID); err != nil {
+		return err
 	}
 
 	// Set the correct timestamp on the new file
